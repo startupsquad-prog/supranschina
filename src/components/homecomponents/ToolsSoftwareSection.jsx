@@ -15,7 +15,7 @@ import hotel from "../../assets/images/FlightBooking.png";
 import alibaba from "../../assets/images/Alibaba.png";
 import indiamart from "../../assets/images/IndiaMART.png";
 import globalsources from "../../assets/images/GlobalSources.png";
-import madeinchina from "../../assets/images/MadeInchina.png";
+import madeinchina from "../../assets/images/MadeInChina.png";
 
 // Example tool data for each tab
 const toolData = {
