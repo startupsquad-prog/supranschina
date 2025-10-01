@@ -2,7 +2,7 @@
 import React from "react";
 import WatchPhoto from "../../assets/images/5.png";
 
-export default function Watchphotovideo() {
+export default function WatchPhotoVideo() {
   return (
     <>
       {/* ✅ Desktop View */}
