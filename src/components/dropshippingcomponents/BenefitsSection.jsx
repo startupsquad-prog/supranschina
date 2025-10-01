@@ -5,9 +5,9 @@ import "aos/dist/aos.css";
      import { Link } from "react-router-dom";
 import shopifyLogo from "../../assets/images/s.jpg"; 
 import badge from "../../assets/images/s2.jpeg"; 
-import avatar1 from "../../assets/images/store.png"; 
-import avatar2 from "../../assets/images/store.png"; 
-import avatar3 from "../../assets/images/store.png"; 
+import avatar1 from "../../assets/images/Store.png"; 
+import avatar2 from "../../assets/images/Store.png"; 
+import avatar3 from "../../assets/images/Store.png"; 
 
 const BenefitsSection = ({ onButtonClick }) => {
   useEffect(() => {
