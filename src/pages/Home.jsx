@@ -32,7 +32,7 @@ export const Home = () => {
 
   return (
     <div>
-      <HeroSectionSlider />
+      {/* <HeroSectionSlider /> */}
       {/* <HeroSectionMobileSlider/> */}
       <Hero onScrollToServices={scrollToServices} />
       <DelegationBanner />
