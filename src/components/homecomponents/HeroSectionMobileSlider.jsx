@@ -15,34 +15,49 @@ export default function HeroSectionMobileSlider() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const res = await axios.get(
-          `${AIRTABLE_URL}?filterByFormula=${encodeURIComponent("({Name}='2CTA')")}`,
-          {
-            headers: { Authorization: `Bearer ${airtableToken}` },
-          }
-        );
+        const formula = "Name='2CTA'";
+        const encodedFormula = encodeURIComponent(formula);
+        const url = `${AIRTABLE_URL}?filterByFormula=${encodedFormula}`;
+        console.log("Fetching Airtable from:", url);
+
+        const res = await axios.get(url, {
+          headers: {
+            Authorization: `Bearer ${airtableToken}`,
+          },
+        });
+        console.log("Airtable data:", res.data);
 
         const records = res.data.records;
-
-        if (records.length > 0) {
-          const record = records[0];
-          const fetchedImages = [];
-
-          Object.keys(record.fields).forEach((field) => {
-            if (field.startsWith("Photo")) {
-              const photoArray = record.fields[field];
-              if (Array.isArray(photoArray) && photoArray[0]?.url) {
-                fetchedImages.push({
-                  url: photoArray[0].url,
-                  order: parseInt(field.replace("Photo", "")) || 0,
-                });
-              }
-            }
-          });
-
-          fetchedImages.sort((a, b) => a.order - b.order);
-          setImages(fetchedImages.map((f) => f.url));
+        if (records.length === 0) {
+          console.warn("No Airtable records found for Name='2CTA'");
+          return;
         }
+
+        const record = records[0].fields;
+        console.log("Record fields:", record);
+
+        const fetchedImages = [];
+
+        Object.keys(record).forEach((field) => {
+          if (field.startsWith("Photo")) {
+            const photoNumber = field.replace("Photo", "");
+
+            const photoArray = record[field];
+            if (!Array.isArray(photoArray) || !photoArray[0]?.url) return;
+
+            const linkFieldName = `Photo${photoNumber}Link`;
+            const linkUrl = record[linkFieldName] || "#";
+
+            fetchedImages.push({
+              url: photoArray[0].url,
+              order: parseInt(photoNumber, 10) || 0,
+              link: linkUrl,
+            });
+          }
+        });
+
+        fetchedImages.sort((a, b) => a.order - b.order);
+        setImages(fetchedImages);
       } catch (error) {
         console.error("Error fetching Airtable images:", error);
       }
@@ -53,9 +68,11 @@ export default function HeroSectionMobileSlider() {
 
   useEffect(() => {
     if (images.length === 0) return;
+
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
     }, 5000);
+
     return () => clearInterval(interval);
   }, [images]);
 
@@ -67,14 +84,23 @@ export default function HeroSectionMobileSlider() {
     setCurrentIndex((prev) => (prev + 1) % images.length);
   };
 
+  if (images.length === 0) {
+    return (
+      <div className="w-full h-[41vh] flex items-center justify-center">
+        Loading images...
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full h-[41vh] overflow-hidden sm:hidden m-0 p-0">
       {images.map((img, idx) => (
-        <img
+        <a
           key={idx}
-          src={img}
-          alt={`Slide ${idx}`}
-          className={`absolute inset-0 w-full  object-cover transition-transform duration-1000 ease-in-out block ${
+          href={img.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`absolute inset-0 w-full block transition-transform duration-1000 ease-in-out ${
             idx === currentIndex
               ? "translate-x-0"
               : idx < currentIndex
@@ -82,7 +108,13 @@ export default function HeroSectionMobileSlider() {
               : "translate-x-full"
           }`}
           style={{ margin: 0, padding: 0 }}
-        />
+        >
+          <img
+            src={img.url}
+            alt={`Slide ${idx}`}
+            className="w-full h-full object-cover"
+          />
+        </a>
       ))}
 
       <button

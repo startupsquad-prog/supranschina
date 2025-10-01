@@ -37,7 +37,7 @@ export const Hero = ({ onScrollToServices }) => {
       {/* Card and Badge */}
       <div className="flex flex-col items-center">
         <div
-          className="relative w-[235px] h-[230px] cursor-pointer [perspective:1000px] floating"
+          className="relative w-[235px] h-[230px] cursor-pointer [perspective:1000px] floating mt-4"
           onMouseEnter={() => setIsFlipped(true)}
           onMouseLeave={() => setIsFlipped(false)}
         >

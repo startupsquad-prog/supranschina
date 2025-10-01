@@ -6,8 +6,8 @@ import "aos/dist/aos.css";
 
 // Images
 import rectangle from "../../assets/images/Rectanglerobot.png";
-import ChinaFlag from "../../assets/images/F1.png";
-import IndiaFlag from "../../assets/images/F2.png";
+// import ChinaFlag from "../../assets/images/F1.png";
+// import IndiaFlag from "../../assets/images/F2.png";
 
 // React Icons
 import { FaUser, FaPhone, FaEnvelope, FaCity } from "react-icons/fa";
@@ -76,18 +76,7 @@ export const Vform = () => {
 
   return (
     <section className="relative bg-white py-10 px-4" data-aos="fade-up">
-      {/* === FLAG + CLOUD DECORATIONS === */}
-      <img
-        src={ChinaFlag}
-        alt="China Flag"
-        className="absolute top-10 left-0 w-24 md:w-32 z-0"
-      />
-      <img
-        src={IndiaFlag}
-        alt="India Flag"
-        className="absolute top-10 right-0 w-24 md:w-32 z-0"
-      />
-
+ 
       {/* Heading */}
       <div className="bg-red-600 text-white text-center font-semibold py-2 rounded-t-lg max-w-4xl mx-auto relative z-10">
         Fill the form and just wait, we will contact you soon

@@ -22,23 +22,41 @@ export default function HeroSectionSlider() {
 
         const records = res.data.records;
 
-        const getSortedImages = (record) => {
+        // Parse photos and their corresponding links from the first record
+        if (records.length > 0) {
+          const record = records[0].fields;
+
           let imgs = [];
-          Object.keys(record.fields).forEach((field) => {
+
+          // Loop over all keys in the record fields
+          Object.keys(record).forEach((field) => {
             if (field.startsWith("Photo")) {
-              const photo = record.fields[field];
-              if (Array.isArray(photo) && photo[0]?.url) {
+              // Extract photo number: e.g. Photo1 -> 1
+              const photoNumber = field.replace("Photo", "");
+
+              const photoField = record[field];
+              // Get photo URL if exists
+              const photoUrl = Array.isArray(photoField) && photoField[0]?.url ? photoField[0].url : null;
+
+              // Find corresponding link field (e.g. Photo1Link)
+              const linkFieldName = `Photo${photoNumber}Link`;
+              const linkUrl = record[linkFieldName] || "#"; // fallback to "#" if no link
+
+              if (photoUrl) {
                 imgs.push({
-                  url: photo[0].url,
-                  order: parseInt(field.replace("Photo", "")) || 0,
+                  url: photoUrl,
+                  order: parseInt(photoNumber, 10),
+                  link: linkUrl,
                 });
               }
             }
           });
-          return imgs.sort((a, b) => a.order - b.order).map((i) => i.url);
-        };
 
-        if (records[0]) setDesktopImages(getSortedImages(records[0]));
+          // Sort images by their Photo number
+          imgs.sort((a, b) => a.order - b.order);
+
+          setDesktopImages(imgs);
+        }
       } catch (err) {
         console.error("Error fetching Airtable images:", err);
       }
@@ -57,21 +75,30 @@ export default function HeroSectionSlider() {
     return () => clearInterval(interval);
   }, [desktopImages]);
 
+  if (!desktopImages.length) return <div>Loading...</div>;
+
   return (
     <div className="relative w-full h-[85vh] hidden sm:block overflow-hidden">
       {desktopImages.map((img, idx) => (
-        <img
+        <a
           key={idx}
-          src={img}
-          alt={`Slide ${idx}`}
-          className={`absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-in-out ${
+          href={img.link}
+          target="_blank" // Open in new tab, remove if you want same tab
+          rel="noopener noreferrer"
+          className={`absolute inset-0 w-full h-full transition-transform duration-1000 ease-in-out ${
             idx === currentDesktopIndex
               ? "translate-x-0"
               : idx < currentDesktopIndex
               ? "-translate-x-full"
               : "translate-x-full"
           }`}
-        />
+        >
+          <img
+            src={img.url}
+            alt={`Slide ${idx + 1}`}
+            className="w-full h-full object-cover"
+          />
+        </a>
       ))}
 
       {/* Arrows */}

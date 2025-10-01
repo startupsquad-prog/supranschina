@@ -72,35 +72,31 @@ export default function Navbar() {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink
+                  {/* <NavLink
                     to="/services/branddevelopment"
                     className="px-4 py-2 text-gray-800 hover:bg-red-50"
                   >
                     Brand Development
-                  </NavLink>
+                  </NavLink> */}
                 </li>
               </ul>
             </li>
-            <li>
-              <NavLink to="/about" className={navLinkClass}>
-                About
-              </NavLink>
-            </li>
-            <li>
+          
+            {/* <li>
               <NavLink to="/usllc" className={navLinkClass}>
                 US LLC
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink to="/videocall" className={navLinkClass}>
                 Video Call
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink to="/watch" className={navLinkClass}>
                 Watch
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink to="/cantonchinatravel" className={navLinkClass}>
                 Canton China Travel
@@ -162,31 +158,31 @@ export default function Navbar() {
                 </NavLink>
               </li>
               <li>
-                <NavLink
+                {/* <NavLink
                   to="/services/branddevelopment"
                   className="block hover:text-red-600"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Brand Development
-                </NavLink>
+                </NavLink> */}
               </li>
             </ul>
           </details>
 
-          <NavLink
+          {/* <NavLink
             to="/about"
             className={navLinkClass}
             onClick={() => setIsMenuOpen(false)}
           >
             About
-          </NavLink>
-          <NavLink
+          </NavLink> */}
+          {/* <NavLink
             to="/usllc"
             className={navLinkClass}
             onClick={() => setIsMenuOpen(false)}
           >
             US LLC
-          </NavLink>
+          </NavLink> */}
           <NavLink
             to="/videocall"
             className={navLinkClass}
@@ -194,13 +190,13 @@ export default function Navbar() {
           >
             Video Call
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to="/watch"
             className={navLinkClass}
             onClick={() => setIsMenuOpen(false)}
           >
             Watch
-          </NavLink>
+          </NavLink> */}
           <NavLink
             to="/cantonchinatravel"
             className={navLinkClass}

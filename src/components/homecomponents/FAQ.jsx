@@ -3,42 +3,97 @@ import React, { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-const categories = ["Basics", "Services", "Tools & Software", "Other"];
+const categories = ["Dropshipping", "Brand Development", "US LLC Services", "General Questions"];
 
 const faqs = {
-  Basics: [
-    {
-      question: "What makes Suprans different from everyone else?",
-      answer:
-        "Suprans focuses on merging creativity with strategic execution to deliver lasting impact.",
-    },
-    {
-      question: "Do I need experience to use Suprans?",
-      answer:
-        "Not at all. Suprans is designed for both beginners and professionals alike.",
-    },
-    {
-      question: "Is Suprans just digital, or do you also support physical products?",
-      answer: "We support both digital and physical product strategies.",
-    },
-    {
-      question: "How do I know if Suprans is right for me?",
-      answer:
-        "If you’re a creator, entrepreneur, or business looking to grow — Suprans is for you.",
-    },
-    {
-      question: "How does Suprans actually help me grow?",
-      answer:
-        "We offer tools, mentorship, and services tailored to your goals to accelerate your progress.",
-    },
+  Dropshipping : [
+     {
+        question: "What is dropshipping, and how does your service work?",
+        answer:
+          "Dropshipping is a business model where you don’t need to keep inventory. We provide product sourcing, order fulfillment, and shipping directly to your customers under your brand. You focus on marketing and sales, while we handle the logistics.",
+      },
+      
+      {
+        question: "Can I sell globally with your dropshipping service?",
+        answer:
+          "Yes, we support international shipping and help you expand your business worldwide.",
+      },
+      {
+        question: "How long does shipping take?",
+        answer:
+          "Standard shipping usually takes 7–14 days, depending on the destination. We also offer faster shipping options in certain regions.",
+      },
   ],
-  Services: [],
-  "Tools & Software": [],
-  Other: [],
+  "Brand Development": [
+      {
+        question: "What do your brand development services include?",
+        answer:
+          "We help you build a professional brand identity, including logo design, website creation, social media setup, and packaging design.",
+      },
+      {
+        question: "Can you help me scale my brand?",
+        answer:
+          "Yes. Our team provides marketing strategies, content creation, and growth consultation to scale your brand effectively.",
+      },
+      {
+        question: "Do you customize the services based on my niche?",
+        answer:
+          "Absolutely. Every business is different, so we tailor our brand development services to fit your industry and goals.",
+      },
+      {
+        question: "Will you manage my social media accounts?",
+        answer:
+          "Yes, we offer social media management as part of our brand development service if required.",
+      },
+  ],
+  "US LLC Services": [
+    {
+        question: "What is an LLC, and why should I register one in the US?",
+        answer:
+          "A Limited Liability Company (LLC) is a legal business structure in the United States that protects your personal assets, helps build credibility, and allows you to open US bank accounts and payment gateways like Stripe.",
+      },
+      {
+        question: "Can non-US residents register an LLC through you?",
+        answer:
+          "Yes. We assist international entrepreneurs in registering and managing their US LLC without needing to visit the United States.",
+      },
+      {
+        question: "Do you also help with EIN and Bank Account setup?",
+        answer:
+          "Yes, we provide complete assistance in getting your EIN (Employer Identification Number) and US bank account setup.",
+      },
+      {
+        question: "How long does it take to form a US LLC?",
+        answer:
+          "It usually takes 7–14 business days, depending on state processing times.",
+      },
+  ],
+  "General Questions": [
+    {
+        question: "Why should I choose your company over others?",
+        answer:
+          "We provide an all-in-one solution—dropshipping, brand development, and US LLC setup—so you don’t need to work with multiple providers. Our team ensures fast, reliable, and professional service.",
+      },
+      {
+        question: "Do I need technical knowledge to get started?",
+        answer:
+          "No. We handle the technical side for you, and our team guides you step-by-step.",
+      },
+      {
+        question: "How can I get started?",
+        answer:
+          "Simply contact us through our website or customer support. We’ll help you choose the best service package for your business goals.",
+      },
+      {
+        question: "Do you provide ongoing support?",
+        answer:
+          "Yes, we provide continuous support even after setup to ensure your business runs smoothly.",
+      },
+  ],
 };
 
 export default function FAQ() {
-  const [activeCategory, setActiveCategory] = useState("Basics");
+  const [activeCategory, setActiveCategory] = useState("Dropshipping");
   const [openIndex, setOpenIndex] = useState(null);
 
   useEffect(() => {

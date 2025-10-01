@@ -1,118 +1,94 @@
 
-import { useState, useEffect } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, FreeMode } from "swiper/modules";
-import "swiper/css";
+import { useEffect, useState } from "react";
 
-export default function Testimonials() {
+export default function TestimonialsMarquee() {
   const [testimonials, setTestimonials] = useState([]);
 
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const response = await fetch(
-          `https://api.airtable.com/v0/${
-            import.meta.env.VITE_AIRTABLE_BASE_ID
-          }/${import.meta.env.VITE_AIRTABLE_TABLE_NAME_Home_Review}`,
+        const res = await fetch(
+          `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_AIRTABLE_TABLE_NAME_Home_Review}`,
           {
-            headers: {
-              Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_TOKEN}`,
-            },
+            headers: { Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_TOKEN}` },
           }
         );
-
-        const data = await response.json();
-
-        const formatted = data.records.map((record) => ({
-          name: record.fields.Name || "Anonymous",
-          image:
-            record.fields.Image?.[0]?.url ||
-            "https://via.placeholder.com/150",
-          text: record.fields.Text || "",
+        const data = await res.json();
+        const formatted = (data.records || []).map((r) => ({
+          name: r.fields.Name || "Anonymous",
+          image: r.fields.Image?.[0]?.url || "https://via.placeholder.com/150",
+          text: r.fields.Text || "",
         }));
-
         setTestimonials(formatted);
-      } catch (error) {
-        console.error("❌ Error fetching testimonials:", error);
+      } catch (err) {
+        console.error(err);
       }
     };
-
     fetchTestimonials();
   }, []);
 
-  // Helper function to truncate long text
-  const truncateText = (text, wordLimit = 34) => {
-    const words = text.split(" ");
-    if (words.length <= wordLimit) return text;
-    return words.slice(0, wordLimit).join(" ") + "...";
+  const truncate = (t, n = 28) => {
+    const a = (t || "").split(" ");
+    return a.length <= n ? t : a.slice(0, n).join(" ") + "...";
   };
 
+  // duplicate for seamless loop
+  const items = [...testimonials, ...testimonials];
+
+  if (!testimonials.length) return null;
+
   return (
-    <section className="bg-white py-16 text-center">
-      {/* Section Heading */}
-      <h2 className="text-3xl font-bold mb-2">
+    <section className="bg-white py-16">
+      <h2 className="text-3xl font-bold text-center mb-6">
         Don’t believe us? <br />
-        <span>
-          See what our <span className="text-red-600">customers</span> wanna say
-        </span>
+        <span>See what our <span className="text-red-600">customers</span> wanna say</span>
       </h2>
 
-      {/* Swiper Slider */}
-      <div className="my-10 px-4">
-        <Swiper
-          modules={[Autoplay, FreeMode]}
-          freeMode={true}
-          loop={true}
-          grabCursor={false}
-          allowTouchMove={false}
-          slidesPerView={"auto"}
-          spaceBetween={20}
-          speed={5000}
-          autoplay={{
-            delay: 0,
-            disableOnInteraction: false,
-          }}
-          observer={true}
-          observeParents={true}
-          className="w-full"
-        >
-          {testimonials.map((item, index) => (
-            <SwiperSlide
-              key={index}
-              className="bg-white border border-red-500 p-7 rounded-xl shadow-lg flex flex-col justify-between !w-[270px] min-h-[300px] max-h-[300px]"
+      <div className="overflow-hidden">
+        <div className="marquee flex gap-4 items-stretch">
+          {items.map((it, idx) => (
+            <article
+              key={idx}
+              className="min-w-[250px] sm:min-w-[270px] bg-white border border-red-500 p-5 rounded-xl shadow flex flex-col justify-between"
             >
-              {/* User Info */}
-              <div className="flex items-center mb-4">
-                <div className="w-10 h-10 rounded-full mr-3 border-2 border-red-500 overflow-hidden flex-shrink-0">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-full object-cover"
-                  />
+              <div className="flex items-center mb-3">
+                <div className="w-10 h-10 rounded-full mr-3 border-2 border-red-500 overflow-hidden">
+                  <img src={it.image} alt={it.name} className="w-full h-full object-cover" />
                 </div>
-                <h3 className="text-md font-semibold">{item.name}</h3>
+                <h3 className="font-semibold">{it.name}</h3>
               </div>
-
-              {/* Testimonial Text */}
-              <p className="text-sm text-gray-700 mb-4 line-clamp-6 text-justify">
-                {truncateText(item.text, 30)}
-              </p>
-
-              {/* Star Rating */}
-              <div className="flex justify-center text-yellow-500 text-xl">
-                ⭐⭐⭐⭐⭐
-              </div>
-            </SwiperSlide>
+              <p className="text-sm text-gray-700 mb-2">{truncate(it.text, 28)}</p>
+              <div className="text-yellow-500">⭐⭐⭐⭐⭐</div>
+            </article>
           ))}
-        </Swiper>
+        </div>
       </div>
 
-      {/* Footer Text */}
-      <p className="text-sm text-gray-800">
-        Trusted by{" "}
-        <span className="text-red-600 font-semibold">Over 10,000</span>{" "}
-        Entrepreneurs around the Globe
+      <p className="text-center text-sm text-gray-800 mt-6">
+        Trusted by <span className="text-red-600 font-semibold">Over 10,000</span> Entrepreneurs
       </p>
+
+      <style>{`
+        .marquee {
+          display: flex;
+          align-items: stretch;
+          gap: 16px;
+          animation: marquee 20s linear infinite;
+          will-change: transform;
+        }
+        /* hover/touch: pause */
+        .marquee:hover, .marquee:active { animation-play-state: paused; }
+
+        @keyframes marquee {
+          from { transform: translateX(0); }
+          to { transform: translateX(-100%); } /* because content is duplicated */
+        }
+
+        /* speed tweak on small screens */
+        @media (max-width: 640px) {
+          .marquee { animation-duration: 15s; }
+        }
+      `}</style>
     </section>
   );
 }

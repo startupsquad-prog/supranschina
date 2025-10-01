@@ -18,7 +18,7 @@ import DelegationBanner from "../components/homecomponents/DeletgationBanner";
 import BusinessStats from "../components/homecomponents/BusinessStats";
 import HeroSectionSlider from "../components/homecomponents/HeroSectionSlider";
 import CallbackModal from "../components/modal/CallbackModal";
-import HeroSectionMobileSlider from "../components/homecomponents/HeroSectionMobileSlider";
+// import HeroSectionMobileSlider from "../components/homecomponents/HeroSectionMobileSlider";
 export const Home = () => {
   const servicesRef = useRef(null);
 
@@ -33,7 +33,7 @@ export const Home = () => {
   return (
     <div>
       <HeroSectionSlider />
-      <HeroSectionMobileSlider/>
+      {/* <HeroSectionMobileSlider/> */}
       <Hero onScrollToServices={scrollToServices} />
       <DelegationBanner />
       <CallbackForm />
