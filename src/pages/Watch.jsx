@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import WatchShowcase from "../components/watchcomponents/WatchShowcase";
 import BulkEnquiryForm from "../components/watchcomponents/BulkEnquiryForm";
 import ProductCard from "../components/watchcomponents/ProductCard";
-import Watchphotovideo from "../components/watchcomponents/WatchPhotoVideo";
+import Watchphotovideo from "../components/watchcomponents/Watchphotovideo";
 import RelatedProducts from "../components/watchcomponents/RelatedProducts";
 import CallbackModal from "../components/modal/CallbackModal";
 
